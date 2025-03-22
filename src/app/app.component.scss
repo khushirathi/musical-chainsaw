@@ -1,0 +1,17 @@
+.app-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  .main-content {
+    flex: 1;
+    padding: 20px;
+    background-color: #f9f9f9;
+  }
+  
+  /* This ensures the app takes up full viewport height */
+  :host {
+    display: block;
+    height: 100%;
+  }

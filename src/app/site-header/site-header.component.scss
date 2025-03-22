@@ -1,0 +1,41 @@
+/* Additional custom styles for the header component */
+
+/* Shadow for the toolbar */
+:host ::ng-deep .mat-toolbar {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  height: 64px;
+}
+
+/* Styling for the user profile photo container */
+.user-photo-container {
+  width: 40px;
+  height: 40px;
+  overflow: hidden;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f0f0f0;
+}
+
+/* Ensure the image properly fits the container */
+.user-photo-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Add some hover effects */
+button.mat-icon-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Style for the menu items */
+:host ::ng-deep .mat-menu-item {
+  display: flex;
+  align-items: center;
+}
+
+:host ::ng-deep .mat-menu-item .mat-icon {
+  margin-right: 8px;
+}
