@@ -28,6 +28,11 @@ export class AuthService {
   // Expose as observables
   userProfile$ = this.userProfileSubject.asObservable();
   authFailed$ = this.authFailedSubject.asObservable();
+  
+  // Getter for current user profile (synchronous access)
+  get currentUserProfile(): UserProfile | null {
+    return this.userProfileSubject.value;
+  }
 
   // Define the API scopes needed for your application
   private apiScopes = ['User.Read']; // Add more scopes as needed
@@ -35,11 +40,11 @@ export class AuthService {
   // Configuration for Microsoft authentication
   private msalConfig = {
     auth: {
-      clientId: 'dcdf02e9-37a6-4ef6-90e1-6eb23aee7e00', 
-      authority: 'https://login.microsoftonline.com/75c22ff3-c5ee-4cea-83d7-943fc7ede463',
-      redirectUri: 'http://localhost:4200/', // Explicit with trailing slash
-      navigateToLoginRequestUrl: false, // Change to false
-      postLogoutRedirectUri: 'http://localhost:4200/'
+      clientId: 'dcdf02e9-37a6-4ef6-90e1-6eb23aee7e00', // Client ID
+      authority: 'https://login.microsoftonline.com/75c22ff3-c5ee-4cea-83d7-943fc7ede463', // Tenant ID
+      redirectUri: window.location.origin,
+      navigateToLoginRequestUrl: true,
+      postLogoutRedirectUri: window.location.origin
     },
     cache: {
       cacheLocation: 'localStorage',
@@ -165,7 +170,7 @@ export class AuthService {
       .catch(error => {
         console.error('Login error:', error);
       });
-  } 
+  }
 
   /**
    * Get user access token for API calls

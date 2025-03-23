@@ -1,0 +1,98 @@
+<mat-toolbar color="primary" class="flex justify-between items-center">
+    <div class="flex items-center gap-4">
+        <img src="assets/logo.svg" alt="Logo" class="h-10 w-10" />
+        <span class="text-lg font-medium">{{ appTitle }}</span>
+    </div>
+
+    <div class="flex-1 mx-8">
+        <!-- Your navigation links -->
+        <div class="flex gap-4">
+            <a mat-button routerLink="/">Dashboard</a>
+            <!-- Add other navigation links as needed -->
+        </div>
+    </div>
+
+    <!-- Search box -->
+    <div class="relative mx-4 w-64">
+        <input type="text" placeholder="Search"
+            class="w-full py-1 px-3 rounded-md bg-white/10 text-white placeholder-white/70 border border-white/20" />
+    </div>
+
+    <!-- User profile menu -->
+    @if (isLoggedIn && userProfile) {
+    <div class="flex items-center gap-2">
+        @if (userProfile) {
+        <span class="text-sm">Hi, {{ userProfile.givenName || userProfile.displayName }}</span>
+        <button mat-icon-button [matMenuTriggerFor]="profileMenu" class="relative">
+            @if (userProfile.photo) {
+            <img [src]="userProfile.photo" alt="Profile photo"
+                class="h-8 w-8 rounded-full object-cover border border-white/20" />
+            } @else {
+            <div class="h-8 w-8 rounded-full bg-blue-200 flex items-center justify-center text-blue-800 font-medium">
+                {{ (userProfile.givenName || userProfile.displayName || 'U')?.charAt(0) }}
+            </div>
+            }
+        </button>
+        <mat-menu #profileMenu="matMenu">
+            <div class="p-4 text-center">
+                @if (userProfile.photo) {
+                <img [src]="userProfile.photo" alt="Profile photo"
+                    class="h-16 w-16 rounded-full object-cover mx-auto mb-2" />
+                } @else {
+                <div
+                    class="h-16 w-16 rounded-full bg-blue-200 flex items-center justify-center text-blue-800 font-medium text-xl mx-auto mb-2">
+                    {{ (userProfile.givenName || userProfile.displayName || 'U')?.charAt(0) }}
+                </div>
+                }
+                <div class="font-medium">{{ userProfile.displayName }}</div>
+                <div class="text-sm text-gray-600">{{ userProfile.userPrincipalName }}</div>
+                @if (userProfile.jobTitle) {
+                <div class="text-sm text-gray-600 mt-1">{{ userProfile.jobTitle }}</div>
+                }
+            </div>
+            <mat-divider></mat-divider>
+            <button mat-menu-item routerLink="/profile">
+                <mat-icon>account_circle</mat-icon>
+                <span>My Profile</span>
+            </button>
+            <button mat-menu-item routerLink="/settings">
+                <mat-icon>settings</mat-icon>
+                <span>Settings</span>
+            </button>
+            <mat-divider></mat-divider>
+            <button mat-menu-item (click)="logout()">
+                <mat-icon>exit_to_app</mat-icon>
+                <span>Sign Out</span>
+            </button>
+        </mat-menu>
+        } @else {
+        <!-- Show placeholder when userProfile is null but user is logged in -->
+        <span class="text-sm">Hi, User</span>
+        <button mat-icon-button [matMenuTriggerFor]="profileMenu" class="relative">
+            <div class="h-8 w-8 rounded-full bg-blue-200 flex items-center justify-center text-blue-800 font-medium">
+                U
+            </div>
+        </button>
+        <mat-menu #profileMenu="matMenu">
+            <button mat-menu-item routerLink="/profile">
+                <mat-icon>account_circle</mat-icon>
+                <span>My Profile</span>
+            </button>
+            <button mat-menu-item (click)="logout()">
+                <mat-icon>exit_to_app</mat-icon>
+                <span>Sign Out</span>
+            </button>
+        </mat-menu>
+        }
+    </div>
+    } @else if (isAuthenticating) {
+    <div class="flex items-center">
+        <span class="text-sm mr-2">Signing in...</span>
+        <mat-spinner diameter="24" color="accent"></mat-spinner>
+    </div>
+    }
+    @else {
+    <!-- This may never show now that we auto-redirect -->
+    <button mat-raised-button (click)="login()">Sign In1</button>
+    }
+</mat-toolbar>
